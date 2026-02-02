@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated paper."
+title: "Solving cluster moment relaxation with hierarchical matrix (MATLAB code)"
+type: software
+
+authors:
+  - family-names: Wang
+    given-names: Yi
+  - family-names: Huang
+    given-names: Rizheng
+  - family-names: Khoo
+    given-names: Yuehaw
+
+preferred-citation:
+  type: article
+  title: "Solving cluster moment relaxation with hierarchical matrix"
+  authors:
+    - family-names: Wang
+      given-names: Yi
+    - family-names: Huang
+      given-names: Rizheng
+    - family-names: Khoo
+      given-names: Yuehaw
+  journal: "Journal of Computational Physics"
+  volume: 541
+  year: 2025
+  pages: "114331"
+  doi: "10.1016/j.jcp.2025.114331"
+  url: "https://www.sciencedirect.com/science/article/pii/S0021999125006138"
