@@ -4,8 +4,8 @@ This repository provides a MATLAB reference implementation and reproducibility s
 
 **Solving cluster moment relaxation with hierarchical matrix** (open resource).
 
-The codebase is organized so that most users can directly run the main script to reproduce benchmark results for pre-generated instances (N = 64, 128, 256, 512, 1024).  
-If you want to test larger sizes or regenerate the datasets and warm starts, you can run the provided preparation scripts.
+The codebase is organized so that most users can directly run the main script to reproduce benchmark results for pre-generated instances (N = 64, 128, 256, 512, 1024).
+If you want to test larger sizes or regenerate the datasets and initializations, you can run the provided preparation scripts.
 
 ---
 
@@ -31,11 +31,13 @@ If you want to test larger sizes or regenerate the datasets and warm starts, you
 - src/ core functions (solver, objective, gradients, operators, IO helpers)
 
 **Key entry points**
+
 - `scripts/main.m` — run the solver and save results to `results/`
 - `scripts/prepare_data.m` — (optional) generate `data/<N>_data.mat`
 - `scripts/init_S0.m` — (optional) generate `data/<N>_S0.mat`
 
 **Core implementation**
+
 - `src/run_solver.m` — main solver routine (Algorithm 3)
 - `src/H.m` — hierarchical PSD representation (Eq. (25) in the paper)
 - `src/Loss.m`, `src/dLoss.m`, `src/prepareCG.m` — Manopt cost/gradient + caching
@@ -68,35 +70,42 @@ run('scripts/main.m');
 ```
 
 By default,  `main.m`  runs with  `N = 64`  and writes:
+
 ```
 results/64_benchmark.mat
 ```
+
 ### Running Different Problem Sizes
 
 Edit the options line in  `scripts/main.m`:
+
 ```
 opts = set_default_opts('N', 128);
 ```
+
 Available pre-generated sizes in data/ (as provided in this repo):
+
 ```
 N = 64, 128, 256, 512, 1024
 ```
+
 If you choose an  `N`  that is not pre-generated, see:
 [Regenerating Data and Initialization](#regenerating-data-and-initialization)
 
 ## Outputs
 
 Each run saves a MATLAB `.mat` file:
+
 ```
 results/<N>_benchmark.mat
 ```
+
 Typical fields include:
 
 - `eta_P`, `eta_D`, `eta_g`: feasibility and gap measures per outer iteration
 - `energy`, `energy_per_site`: objective history / per-site changes
 - `iter`, `time`, `relative_err`: summary statistics
 - algorithm parameters used in the run (e.g., `mu`, `tau`, `maxiter_opt`, `r_l`)
-
 
 ## Regenerating Data and Initialization (Optional)
 
@@ -112,23 +121,31 @@ If you want to test a new `N` (e.g., `2048`) or rebuild files:
 ```matlab
 run('scripts/prepare_data.m');
 ```
+
 This produces:
+
 ```
 data/<N>_data.mat
 ```
+
 ### Step 2: Generate initialization
+
 ```
 run('scripts/init_S0.m');
 ```
+
 This produces:
+
 ```
 data/<N>_S0.mat
 ```
 
 ### Step 3: Run the solver
+
 ```
 run('scripts/main.m');
 ```
+
 These scripts use  `set_default_opts(...)`  to control  `N, h`, and other parameters.
 
 ## Troubleshooting
@@ -144,10 +161,12 @@ addpath(genpath('/path/to/manopt'));
 ### 2) Missing  `data/<N>_data.mat`  or  `data/<N>_S0.mat`
 
 You selected an  `N`  that is not pre-generated. Run:
+
 ```
 run('scripts/prepare_data.m');
 run('scripts/init_S0.m');
 ```
+
 ### 3) Output is too verbose
 
 Manopt verbosity can be reduced by setting  `options.verbosity = 0`  inside the relevant script/function.
@@ -156,8 +175,8 @@ Manopt verbosity can be reduced by setting  `options.verbosity = 0`  inside the 
 
 If you use this code in academic work, please cite the paper:
 
-- Yi Wang, Rizheng Huang, Yuehaw Khoo, *Solving cluster moment relaxation with hierarchical matrix*, **Journal of Computational Physics**, 541 (2025) 114331.  
-  DOI: https://doi.org/10.1016/j.jcp.2025.114331  
+- Yi Wang, Rizheng Huang, Yuehaw Khoo, *Solving cluster moment relaxation with hierarchical matrix*, **Journal of Computational Physics**, 541 (2025) 114331.
+  DOI: https://doi.org/10.1016/j.jcp.2025.114331
   ScienceDirect: https://www.sciencedirect.com/science/article/pii/S0021999125006138
 
 ### BibTeX
